@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "name": "Farm Health Advisory",
+    "slug": "farm-health-advisory",
+    "version": "1.0.0",
+    "sdkVersion": "56.0.0",
+    "platforms": ["ios", "android", "web"],
+    "extra": {
+      "apiBaseUrl": "http://10.0.2.2:8000/api"
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "farm-health-advisory",
+  "version": "0.1.0",
+  "private": true,
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
+    "web": "expo start --web"
+  },
+  "dependencies": {
+    "@expo/cli": "^56.1.14",
+    "@react-native-async-storage/async-storage": "2.2.0",
+    "@react-navigation/drawer": "^6.5.8",
+    "@react-navigation/native": "^6.1.7",
+    "@react-navigation/native-stack": "^6.9.14",
+    "expo": "^56.0.9",
+    "expo-image-picker": "~56.0.16",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-native": "0.85.0",
+    "react-native-gesture-handler": "~2.31.1",
+    "react-native-reanimated": "4.3.1",
+    "react-native-safe-area-context": "~5.7.0",
+    "react-native-screens": "4.25.2",
+    "react-native-web": "^0.21.2"
+  }
+}
