@@ -44,11 +44,12 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns += [
-        re_path(r'^assets/(?P<path>.*)$', static_serve, {
-            'document_root': os.path.join(settings.BASE_DIR, '..', 'frontend', 'dist', 'assets')
-        }),
-    ]
+
+urlpatterns += [
+    re_path(r'^assets/(?P<path>.*)$', static_serve, {
+        'document_root': os.path.join(settings.BASE_DIR, '..', 'frontend', 'dist', 'assets')
+    }),
+]
 
 urlpatterns += [
     re_path(r'^.*$', frontend_spa),
