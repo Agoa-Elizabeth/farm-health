@@ -65,10 +65,10 @@ class Command(BaseCommand):
                 'contact_info': '+256711111111', 'location': 'Fort Portal',
                 'crop_type': 'banana',
                 'symptoms': {
-                    'black_spots_on_leaves': True, 'yellow_brown_leaf_streaks': True,
-                    'drying_leaf_edges': True,
+                    'yellowing_of_leaves': True, 'wilting_of_leaves': True,
+                    'premature_ripening_of_fruits': True,
                 },
-                'comments': 'Black spots appearing on older leaves',
+                'comments': 'Yellowing and wilting with premature fruit ripening',
             },
         ]
 

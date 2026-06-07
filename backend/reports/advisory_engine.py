@@ -30,60 +30,89 @@ ADVISORIES = {
             'Maintain optimal plant spacing for good air circulation',
         ],
     },
-    'black_sigatoka': {
+    'banana_black_sigatoka': {
         'disease_name': 'Black Sigatoka',
         'description': (
             'A fungal leaf spot disease caused by Mycosphaerella fijiensis. '
-            'It causes black streaks and spots on leaves, reducing photosynthesis and fruit quality.'
+            'It starts as small black spots that enlarge into streaks with yellow halos.'
         ),
         'treatment': [
-            'Apply systemic fungicides (triazoles or strobilurins) at early stages',
+            'Apply systemic fungicides (triazoles, strobilurins) at the first sign of infection',
+            'Spray protectant fungicides (mancozeb, chlorothalonil) every 14-21 days',
             'Remove and destroy heavily infected leaves to reduce inoculum',
-            'Apply protective fungicides like mancozeb or chlorothalonil',
-            'Use spray adjuvant for better fungicide coverage',
-            'Repeat fungicide applications every 14-21 days during rainy season',
+            'Apply oil-based formulations to improve fungicide coverage',
+            'Schedule spraying before rainy seasons for maximum effectiveness',
         ],
         'prevention': [
             'Plant resistant or tolerant banana varieties',
-            'Ensure proper plant spacing to reduce humidity',
-            'Remove and destroy infected leaves during routine field maintenance',
-            'Avoid overhead irrigation; use drip irrigation instead',
-            'Maintain proper nutrition especially potassium and silicon',
+            'Maintain proper plant spacing for good air circulation',
+            'Remove and destroy affected leaves regularly',
+            'Apply adequate potassium fertilizer to strengthen plant resistance',
+            'Ensure proper drainage in the plantation',
+            'Use disease-free planting materials from certified sources',
         ],
         'best_practices': [
-            'Practice regular de-leafing to remove infected leaves',
-            'Maintain proper drainage in the field',
-            'Apply balanced fertilizers based on soil analysis',
-            'Monitor weather conditions for disease forecasting',
-            'Keep field records to track disease progression',
+            'Conduct weekly scouting for early detection of leaf spots',
+            'Maintain field sanitation by removing weeds and debris',
+            'Practice intercropping with non-host crops',
+            'Apply organic mulch to improve soil health',
+            'Implement a regular fertilizer schedule based on soil testing',
         ],
     },
-    'fusarium_wilt': {
+    'banana_fusarium_wilt': {
         'disease_name': 'Fusarium Wilt (Panama Disease)',
         'description': (
             'A soil-borne fungal disease caused by Fusarium oxysporum f. sp. cubense. '
-            'It causes yellowing and wilting, and can survive in soil for decades.'
+            'It causes progressive yellowing, wilting, and eventual death.'
         ),
         'treatment': [
-            'Remove and destroy all infected plants immediately',
-            'Apply soil fumigants in severe cases but with caution',
-            'Use bio-control agents like Trichoderma spp. in the soil',
-            'Apply fungicides containing thiophanate-methyl to surrounding plants',
-            'Solarize infected soil by covering with clear plastic for 4-6 weeks',
+            'Remove and destroy infected plants immediately, including root systems',
+            'Do not replant bananas in infested soil for at least 3-5 years',
+            'Apply soil solarization to reduce fungal populations',
+            'Use biofungicides containing Trichoderma species as soil drench',
+            'Maintain strict quarantine on affected areas',
         ],
         'prevention': [
-            'Use certified Fusarium-resistant banana varieties',
-            'Avoid moving soil or water from infected areas',
-            'Disinfect boots and tools before entering and leaving fields',
-            'Plant in well-draining soils to reduce fungal proliferation',
-            'Practice long crop rotation (non-host crops for 3-5 years)',
+            'Use only certified Fusarium-resistant varieties',
+            'Avoid moving soil or plant material from infested areas',
+            'Disinfect farm tools and footwear when moving between fields',
+            'Plant in well-draining soils to reduce fungal survival',
+            'Apply organic matter to promote beneficial soil microorganisms',
         ],
         'best_practices': [
-            'Maintain proper field drainage',
-            'Apply organic matter to improve soil microbial diversity',
-            'Monitor fields regularly for early signs of wilting',
-            'Use tissue-culture plantlets from certified sources',
-            'Establish windbreaks to reduce spread of fungal spores',
+            'Implement strict biosecurity measures on the farm',
+            'Practice crop rotation with non-host crops (grasses, legumes)',
+            'Use clean irrigation water from uncontaminated sources',
+            'Regular soil testing to monitor pathogen presence',
+            'Report suspected cases to agricultural extension officers',
+            'Maintain buffer zones between infected and healthy areas',
+        ],
+    },
+    'banana_streak_virus': {
+        'disease_name': 'Banana Streak Virus',
+        'description': (
+            'A viral disease caused by Banana streak virus (BSV). '
+            'It produces yellow or brown streaking on leaves and stunted growth.'
+        ),
+        'treatment': [
+            'Remove and destroy infected plants to prevent virus spread',
+            'Control insect vectors (mealybugs, aphids) with appropriate insecticides',
+            'No curative treatment available — focus on prevention',
+            'Replace infected plants with virus-free tissue culture plantlets',
+        ],
+        'prevention': [
+            'Use only certified virus-free planting materials from tissue culture',
+            'Control insect vector populations regularly',
+            'Remove alternate host plants (weeds) that harbor the virus',
+            'Isolate new plantings from old infected fields',
+            'Practice strict farm hygiene',
+        ],
+        'best_practices': [
+            'Source planting materials from accredited nurseries',
+            'Regular monitoring for streaking symptoms on young leaves',
+            'Maintain optimal plant nutrition to reduce stress',
+            'Remove and destroy volunteer banana plants',
+            'Implement insect vector management programs',
         ],
     },
     'coffee_leaf_rust': {
@@ -117,61 +146,88 @@ ADVISORIES = {
     'coffee_berry_disease': {
         'disease_name': 'Coffee Berry Disease',
         'description': (
-            'Caused by Colletotrichum kahawae, attacking developing coffee berries causing '
-            'dark lesions, premature dropping, and significant yield losses.'
+            'A fungal disease caused by Colletotrichum kahawae attacking green berries, '
+            'causing dark sunken lesions and premature dropping.'
         ),
         'treatment': [
-            'Apply copper-based fungicides during flowering and berry development',
-            'Use systemic fungicides containing carbendazim or tebuconazole',
-            'Remove and destroy all infected berries from trees and ground',
-            'Spray at 14-day intervals during the rainy season',
-            'Apply lime sulfur as an organic alternative',
+            'Apply copper-based fungicides during flowering and early berry development',
+            'Spray systemic fungicides (triazoles) when disease pressure is high',
+            'Remove and destroy all infected berries from the field',
+            'Apply fungicide every 14-21 days during wet seasons',
+            'Ensure complete spray coverage of berry clusters',
         ],
         'prevention': [
-            'Plant resistant coffee varieties',
-            'Prune trees to improve air circulation and light penetration',
-            'Avoid dense planting; maintain recommended spacing',
-            'Apply balanced fertilizer to reduce plant stress',
-            'Control weeds to reduce humidity in the plantation',
+            'Plant resistant coffee varieties where available',
+            'Prune to improve air circulation and light penetration',
+            'Maintain proper shade management to reduce humidity',
+            'Remove and destroy fallen berries regularly',
+            'Avoid dense planting to reduce disease spread',
         ],
         'best_practices': [
-            'Harvest berries promptly when ripe',
-            'Remove fallen berries from the ground regularly',
-            'Maintain proper shade management',
-            'Conduct regular field inspections during wet periods',
-            'Keep pruning tools clean and disinfected',
+            'Monitor berry development stages closely for early symptoms',
+            'Maintain proper nutrition especially calcium and boron',
+            'Practice selective harvesting of only ripe berries',
+            'Keep the plantation floor clean of fallen debris',
+            'Implement regular pruning schedules',
         ],
     },
     'coffee_wilt_disease': {
         'disease_name': 'Coffee Wilt Disease',
         'description': (
-            'A vascular wilt caused by Fusarium xylarioides, causing progressive wilting, '
-            'leaf drop, dieback, and eventual death of the tree.'
+            'A vascular wilt disease caused by Fusarium xylarioides causing progressive '
+            'wilting of branches, dieback, and death of coffee trees.'
         ),
         'treatment': [
-            'Remove and destroy all infected trees completely including roots',
-            'Apply fungicide drench (carbendazim) to surrounding healthy trees',
-            'Apply Trichoderma-based bio-control to the soil',
-            'Solarize planting holes before replanting',
-            'Disinfect all tools used on infected trees',
+            'Remove and destroy infected trees including the root system',
+            'Apply fungicide drench (benomyl or carbendazim) to surrounding trees',
+            'Do not replant coffee in the same spot for at least 2 years',
+            'Apply Trichoderma-based biofungicides to soil around healthy trees',
+            'Create physical barriers (trenches) around infected areas',
         ],
         'prevention': [
-            'Plant wilt-resistant coffee varieties',
-            'Use disease-free nursery seedlings',
-            'Avoid injuring roots and stems during cultivation',
-            'Maintain proper soil drainage',
-            'Quarantine new plants before introducing to the farm',
+            'Use disease-free seedlings from certified nurseries',
+            'Avoid wounding tree roots during cultivation',
+            'Maintain proper shade levels to reduce tree stress',
+            'Control nematodes and other soil pests',
+            'Practice strict farm hygiene and tool disinfection',
         ],
         'best_practices': [
-            'Regular monitoring for early wilt symptoms',
-            'Keep farm tools disinfected',
-            'Maintain good soil organic matter content',
-            'Practice intercropping to improve farm biodiversity',
-            'Replace infected trees with resistant varieties',
+            'Regular inspection of coffee trees for early wilting signs',
+            'Maintain proper soil fertility and organic matter',
+            'Implement buffer zones between coffee fields',
+            'Report any suspected wilt cases immediately',
+            'Practice intercropping to diversify farm income',
+        ],
+    },
+    'coffee_leaf_miner': {
+        'disease_name': 'Coffee Leaf Miner',
+        'description': (
+            'Insect damage caused by coffee leaf miner (Leucoptera spp.). Larvae tunnel '
+            'between leaf surfaces causing brown lesions and premature leaf drop.'
+        ),
+        'treatment': [
+            'Apply systemic insecticides when 20% of leaves show infestation',
+            'Use neem-based organic pesticides for light infestations',
+            'Release parasitic wasps (biological control) in the plantation',
+            'Prune and destroy heavily infested leaves',
+            'Apply insecticide sprays targeting young larvae stages',
+        ],
+        'prevention': [
+            'Maintain natural enemy populations by avoiding broad-spectrum pesticides',
+            'Plant shade trees to create favorable conditions for natural predators',
+            'Monitor leaf miner populations with pheromone traps',
+            'Prune to improve canopy openness',
+            'Apply neem cake to soil as systemic preventive measure',
+        ],
+        'best_practices': [
+            'Regular weekly monitoring of youngest leaves for mining damage',
+            'Maintain proper nutrition to help plants tolerate infestation',
+            'Conserve natural enemies by spot-spraying only affected areas',
+            'Keep accurate pest scouting records',
+            'Practice integrated pest management (IPM)',
         ],
     },
 }
-
 
 DISEASE_SEVERITY_GUIDELINES = {
     'low': {

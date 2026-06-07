@@ -35,6 +35,8 @@ const SYMPTOM_LABELS = {
   blackened_berries: 'Blackened Berries',
 }
 
+const SEVERITY_COLORS = { low: '#4caf50', medium: '#ff9800', high: '#f44336', critical: '#b71c1c' }
+
 export default function SubmitReport() {
   const [step, setStep] = useState(1)
   const [loading, setLoading] = useState(false)
@@ -125,30 +127,45 @@ export default function SubmitReport() {
         <h1>Report Submitted</h1>
         <div className="result-card">
           <div className="result-header">
-            <span className="result-icon">✅</span>
-            <h2>Analysis Complete</h2>
+            <span className="result-icon">
+              {result.disease ? '🔍' : '✅'}
+            </span>
+            <h2>{result.disease ? 'Disease Detected' : 'Analysis Complete'}</h2>
+            {!result.disease && <p>No specific disease pattern detected based on the symptoms provided.</p>}
           </div>
           <div className="result-body">
             <div className="detail-grid">
-              <div><strong>Disease:</strong> {result.disease_display}</div>
-              <div><strong>Severity:</strong> <span className={`badge badge-${result.severity}`}>{result.severity_display}</span></div>
-              <div><strong>Confidence:</strong> {result.confidence ? `${(result.confidence * 100).toFixed(0)}%` : '—'}</div>
-              <div><strong>Report ID:</strong> #{result.id}</div>
+              {result.disease ? (
+                <>
+                  <div><strong>Disease:</strong> <span style={{ fontWeight: 700, color: 'var(--primary-dark)' }}>{result.disease_display}</span></div>
+                  <div><strong>Severity:</strong> <span className="badge" style={{ background: SEVERITY_COLORS[result.severity] || '#999' }}>{result.severity_display}</span></div>
+                  <div><strong>Confidence:</strong> {result.confidence ? `${(result.confidence * 100).toFixed(0)}%` : '—'}</div>
+                  <div><strong>Report ID:</strong> #{result.id}</div>
+                </>
+              ) : (
+                <div><strong>Report ID:</strong> #{result.id}</div>
+              )}
             </div>
           </div>
           {result.advisory && (
             <div className="advisory-section">
-              <h3>Advisory</h3>
+              <h3>Advisory Report</h3>
               <p>{result.advisory.description}</p>
-              <h4>Treatment</h4>
-              <ul>{result.advisory.treatment.map((t, i) => <li key={i}>{t}</li>)}</ul>
-              <h4>Prevention</h4>
-              <ul>{result.advisory.prevention.map((p, i) => <li key={i}>{p}</li>)}</ul>
-              <h4>Best Practices</h4>
-              <ul>{result.advisory.best_practices.map((b, i) => <li key={i}>{b}</li>)}</ul>
+              <div className="adv-block">
+                <h4>Recommended Treatment</h4>
+                <ul>{result.advisory.treatment.map((t, i) => <li key={i}>{t}</li>)}</ul>
+              </div>
+              <div className="adv-block">
+                <h4>Prevention Measures</h4>
+                <ul>{result.advisory.prevention.map((p, i) => <li key={i}>{p}</li>)}</ul>
+              </div>
+              <div className="adv-block">
+                <h4>Best Farming Practices</h4>
+                <ul>{result.advisory.best_practices.map((b, i) => <li key={i}>{b}</li>)}</ul>
+              </div>
             </div>
           )}
-          <button className="btn btn-primary" onClick={() => { setStep(1); setResult(null); setForm({ farmer_name: '', contact_info: '', location: '', latitude: '', longitude: '', crop_type: 'banana', symptoms: {}, comments: '', image: null }) }}>
+          <button className="btn btn-primary" style={{ marginTop: 16 }} onClick={() => { setStep(1); setResult(null); setForm({ farmer_name: '', contact_info: '', location: '', latitude: '', longitude: '', crop_type: 'banana', symptoms: {}, comments: '', image: null }) }}>
             Submit Another Report
           </button>
         </div>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import api from '../api/axios'
+import toast from 'react-hot-toast'
 
 const SEVERITY_COLORS = { low: '#4caf50', medium: '#ff9800', high: '#f44336', critical: '#b71c1c' }
 
@@ -29,6 +30,19 @@ export default function MyReports() {
     setSelected(data)
   }
 
+  const markResolved = async (id) => {
+    if (!window.confirm('Mark this report as resolved?')) return
+    try {
+      await api.patch(`/reports/${id}/status/`, { status: 'resolved' })
+      setReports((prev) =>
+        prev.map((r) => (r.id === id ? { ...r, status: 'resolved' } : r))
+      )
+      toast.success('Report marked as resolved')
+    } catch {
+      toast.error('Failed to update status')
+    }
+  }
+
   return (
     <div className="page">
       <h1>My Reports</h1>
@@ -43,11 +57,7 @@ export default function MyReports() {
         <select value={diseaseFilter} onChange={(e) => setDiseaseFilter(e.target.value)}>
           <option value="">All Diseases</option>
           <option value="banana_bacterial_wilt">Banana Bacterial Wilt</option>
-          <option value="black_sigatoka">Black Sigatoka</option>
-          <option value="fusarium_wilt">Fusarium Wilt</option>
           <option value="coffee_leaf_rust">Coffee Leaf Rust</option>
-          <option value="coffee_berry_disease">Coffee Berry Disease</option>
-          <option value="coffee_wilt_disease">Coffee Wilt Disease</option>
         </select>
       </div>
 
@@ -85,7 +95,14 @@ export default function MyReports() {
                     </td>
                     <td>{r.status_display}</td>
                     <td>{new Date(r.created_at).toLocaleDateString()}</td>
-                    <td><button className="btn btn-sm btn-primary" onClick={() => viewDetail(r.id)}>View</button></td>
+                    <td>
+                      <button className="btn btn-sm btn-primary" onClick={() => viewDetail(r.id)}>View</button>
+                      {r.status !== 'resolved' && (
+                        <button className="btn btn-sm btn-success" onClick={() => markResolved(r.id)} style={{ marginLeft: 6 }}>
+                          Mark Resolved
+                        </button>
+                      )}
+                    </td>
                   </tr>
                 ))}
               </tbody>

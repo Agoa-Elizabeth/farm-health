@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import toast from 'react-hot-toast'
 
 export default function Register() {
   const { register } = useAuth()
+  const navigate = useNavigate()
   const [form, setForm] = useState({
     full_name: '', email: '', phone_number: '', password: '', confirm_password: '',
   })
@@ -22,6 +23,7 @@ export default function Register() {
     try {
       await register(form)
       toast.success('Account created!')
+      navigate('/')
     } catch {
     } finally {
       setLoading(false)

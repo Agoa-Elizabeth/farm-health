@@ -19,14 +19,14 @@ class Report(models.Model):
         RESOLVED = 'resolved', 'Resolved'
 
     class Disease(models.TextChoices):
-        # Banana
         BANANA_BACTERIAL_WILT = 'banana_bacterial_wilt', 'Banana Bacterial Wilt'
-        BLACK_SIGATOKA = 'black_sigatoka', 'Black Sigatoka'
-        FUSARIUM_WILT = 'fusarium_wilt', 'Fusarium Wilt'
-        # Coffee
+        BANANA_BLACK_SIGATOKA = 'banana_black_sigatoka', 'Black Sigatoka'
+        BANANA_FUSARIUM_WILT = 'banana_fusarium_wilt', 'Fusarium Wilt (Panama Disease)'
+        BANANA_STREAK_VIRUS = 'banana_streak_virus', 'Banana Streak Virus'
         COFFEE_LEAF_RUST = 'coffee_leaf_rust', 'Coffee Leaf Rust'
         COFFEE_BERRY_DISEASE = 'coffee_berry_disease', 'Coffee Berry Disease'
         COFFEE_WILT_DISEASE = 'coffee_wilt_disease', 'Coffee Wilt Disease'
+        COFFEE_LEAF_MINER = 'coffee_leaf_miner', 'Coffee Leaf Miner'
 
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
@@ -51,6 +51,7 @@ class Report(models.Model):
     status = models.CharField(
         max_length=10, choices=Status.choices, default=Status.PENDING
     )
+    admin_notes = models.TextField(blank=True, default='')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -71,7 +72,36 @@ class Advisory(models.Model):
     treatment = models.JSONField(default=list)
     prevention = models.JSONField(default=list)
     best_practices = models.JSONField(default=list)
+    is_approved = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"Advisory for Report #{self.report.id}"
+
+
+class Notification(models.Model):
+    class Type(models.TextChoices):
+        NEW_REPORT = 'new_report', 'New Report'
+        CRITICAL_CASE = 'critical_case', 'Critical Case'
+        OUTBREAK = 'outbreak', 'Outbreak Alert'
+        SYSTEM = 'system', 'System Notification'
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+        related_name='notifications'
+    )
+    title = models.CharField(max_length=255)
+    message = models.TextField()
+    type = models.CharField(max_length=20, choices=Type.choices, default=Type.SYSTEM)
+    related_report = models.ForeignKey(
+        Report, on_delete=models.SET_NULL, null=True, blank=True
+    )
+    is_read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"[{self.get_type_display()}] {self.title}"

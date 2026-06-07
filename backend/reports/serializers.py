@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Report, Advisory
+from .models import Report, Advisory, Notification
 
 
 class ReportListSerializer(serializers.ModelSerializer):
@@ -30,9 +30,25 @@ class ReportListSerializer(serializers.ModelSerializer):
 
 
 class AdvisorySerializer(serializers.ModelSerializer):
+    report_id = serializers.IntegerField(source='report.id', read_only=True)
+    farmer_name = serializers.CharField(source='report.farmer_name', read_only=True)
+    disease_display = serializers.SerializerMethodField()
+
     class Meta:
         model = Advisory
         fields = '__all__'
+
+    def get_disease_display(self, obj):
+        return obj.get_severity_display()
+
+
+class AdvisoryCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Advisory
+        fields = [
+            'report', 'disease_name', 'description', 'severity',
+            'treatment', 'prevention', 'best_practices',
+        ]
 
 
 class ReportDetailSerializer(serializers.ModelSerializer):
@@ -41,18 +57,19 @@ class ReportDetailSerializer(serializers.ModelSerializer):
     severity_display = serializers.SerializerMethodField()
     status_display = serializers.SerializerMethodField()
     crop_type_display = serializers.SerializerMethodField()
+    user_full_name = serializers.CharField(source='user.get_full_name', read_only=True)
 
     class Meta:
         model = Report
         fields = [
-            'id', 'user', 'farmer_name', 'contact_info', 'location',
+            'id', 'user', 'user_full_name', 'farmer_name', 'contact_info', 'location',
             'latitude', 'longitude', 'crop_type', 'crop_type_display',
-            'symptoms', 'comments', 'image',
+            'symptoms', 'comments', 'admin_notes', 'image',
             'disease', 'disease_display', 'severity', 'severity_display',
             'confidence', 'status', 'status_display',
             'created_at', 'updated_at', 'advisory',
         ]
-        read_only_fields = ['user', 'disease', 'severity', 'confidence', 'status', 'advisory']
+        read_only_fields = ['user', 'disease', 'severity', 'confidence', 'status', 'advisory', 'admin_notes']
 
     def get_disease_display(self, obj):
         return obj.get_disease_display() if obj.disease else None
@@ -65,6 +82,12 @@ class ReportDetailSerializer(serializers.ModelSerializer):
 
     def get_crop_type_display(self, obj):
         return obj.get_crop_type_display()
+
+
+class ReportAdminUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Report
+        fields = ['status', 'admin_notes']
 
 
 class ReportCreateSerializer(serializers.ModelSerializer):
@@ -96,3 +119,15 @@ class ReportStatusUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Report
         fields = ['status']
+
+
+class NotificationSerializer(serializers.ModelSerializer):
+    type_display = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Notification
+        fields = '__all__'
+        read_only_fields = ['user', 'created_at']
+
+    def get_type_display(self, obj):
+        return obj.get_type_display()

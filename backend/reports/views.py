@@ -4,7 +4,8 @@ from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 
-from .models import Report, Advisory
+from accounts.models import User
+from .models import Report, Advisory, Notification
 from .serializers import (
     ReportListSerializer, ReportDetailSerializer, ReportCreateSerializer,
     ReportStatusUpdateSerializer, AdvisorySerializer,
@@ -72,6 +73,25 @@ class ReportViewSet(viewsets.ModelViewSet):
                     prevention=advisory_data['prevention'],
                     best_practices=advisory_data['best_practices'],
                 )
+
+            if severity in ('high', 'critical'):
+                for admin_user in User.objects.filter(role='admin'):
+                    Notification.objects.create(
+                        user=admin_user,
+                        title=f'Critical Case: {report.get_disease_display()}',
+                        message=f'Report #{report.id} by {report.farmer_name} flagged as {severity}. Immediate attention required.',
+                        type=Notification.Type.CRITICAL_CASE,
+                        related_report=report,
+                    )
+
+        for admin_user in User.objects.filter(role='admin'):
+            Notification.objects.create(
+                user=admin_user,
+                title=f'New Report #{report.id} Submitted',
+                message=f'{report.farmer_name} submitted a {report.get_crop_type_display()} report from {report.location}.',
+                type=Notification.Type.NEW_REPORT,
+                related_report=report,
+            )
 
         return Response(
             ReportDetailSerializer(report, context={'request': request}).data,

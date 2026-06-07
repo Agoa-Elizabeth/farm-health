@@ -133,6 +133,10 @@ def outbreak_data(request):
 def admin_analytics(request):
     total_farmers = User.objects.filter(role='farmer', is_active=True).count()
     total_reports = Report.objects.count()
+    high_critical = Report.objects.filter(severity__in=['high', 'critical']).count()
+    reports_today = Report.objects.filter(
+        created_at__date=timezone.now().date()
+    ).count()
 
     disease_dist = (
         Report.objects
@@ -163,11 +167,29 @@ def admin_analytics(request):
         .annotate(count=Count('id'))
     )
 
+    crop_dist = (
+        Report.objects
+        .values('crop_type')
+        .annotate(count=Count('id'))
+    )
+
+    top_diseases = (
+        Report.objects
+        .exclude(disease__isnull=True)
+        .values('disease')
+        .annotate(count=Count('id'))
+        .order_by('-count')[:5]
+    )
+
+    disease_labels = dict(Report.Disease.choices)
+
     return Response({
         'total_farmers': total_farmers,
         'total_reports': total_reports,
+        'high_critical_cases': high_critical,
+        'reports_today': reports_today,
         'disease_distribution': [
-            {'disease': dict(Report.Disease.choices).get(d['disease'], d['disease']), 'count': d['count']}
+            {'disease': disease_labels.get(d['disease'], d['disease']), 'count': d['count']}
             for d in disease_dist
         ],
         'monthly_trends': [
@@ -181,4 +203,12 @@ def admin_analytics(request):
         'severity_stats': {
             s['severity']: s['count'] for s in severity_stats
         },
+        'crop_distribution': [
+            {'crop': 'Banana' if c['crop_type'] == 'banana' else 'Coffee', 'count': c['count']}
+            for c in crop_dist
+        ],
+        'top_diseases': [
+            {'disease': disease_labels.get(d['disease'], d['disease']), 'count': d['count']}
+            for d in top_diseases
+        ],
     })

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Outlet, NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
@@ -71,9 +72,29 @@ function LogoutIcon() {
   )
 }
 
+function MenuIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="3" y1="6" x2="21" y2="6" />
+      <line x1="3" y1="12" x2="21" y2="12" />
+      <line x1="3" y1="18" x2="21" y2="18" />
+    </svg>
+  )
+}
+
+function CloseIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18" />
+      <line x1="6" y1="6" x2="18" y2="18" />
+    </svg>
+  )
+}
+
 export default function Layout() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const handleLogout = () => {
     logout()
@@ -83,32 +104,38 @@ export default function Layout() {
   const linkClass = ({ isActive }) =>
     `nav-link ${isActive ? 'active' : ''}`
 
+  const closeSidebar = () => setSidebarOpen(false)
+
   return (
     <div className="app-layout">
-      <aside className="sidebar">
+      <div className={`sidebar-overlay ${sidebarOpen ? 'open' : ''}`} onClick={closeSidebar} />
+      <aside className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-brand">
           <LeafIcon />
           <span className="brand-text">FarmHealth</span>
+          <button className="sidebar-close-btn" onClick={closeSidebar} aria-label="Close menu">
+            <CloseIcon />
+          </button>
         </div>
         <div className="sidebar-links">
-          <NavLink to="/" end className={linkClass}>
+          <NavLink to="/" end className={linkClass} onClick={closeSidebar}>
             <span className="nav-icon"><DashboardIcon /></span>
             <span>Overview</span>
           </NavLink>
-          <NavLink to="/reports" className={linkClass}>
+          <NavLink to="/reports" className={linkClass} onClick={closeSidebar}>
             <span className="nav-icon"><ReportsIcon /></span>
             <span>My Reports</span>
           </NavLink>
-          <NavLink to="/submit" className={linkClass}>
+          <NavLink to="/submit" className={linkClass} onClick={closeSidebar}>
             <span className="nav-icon"><PlusIcon /></span>
             <span>Submit Report</span>
           </NavLink>
-          <NavLink to="/map" className={linkClass}>
+          <NavLink to="/map" className={linkClass} onClick={closeSidebar}>
             <span className="nav-icon"><MapIcon /></span>
             <span>Outbreak Map</span>
           </NavLink>
           {user?.role === 'admin' && (
-            <NavLink to="/admin" className={linkClass}>
+            <NavLink to="/admin" className={linkClass} onClick={closeSidebar}>
               <span className="nav-icon"><SettingsIcon /></span>
               <span>Admin</span>
             </NavLink>
@@ -125,9 +152,45 @@ export default function Layout() {
           </button>
         </div>
       </aside>
+
+      <div className="mobile-header">
+        <button className="hamburger-btn" onClick={() => setSidebarOpen(true)} aria-label="Open menu">
+          <MenuIcon />
+        </button>
+        <span className="mobile-header-title">
+          <LeafIcon />
+          <span>FarmHealth</span>
+        </span>
+      </div>
+
       <main className="main-content">
         <Outlet />
       </main>
+
+      <nav className="bottom-nav">
+        <NavLink to="/" end className={({ isActive }) => `bottom-nav-link ${isActive ? 'active' : ''}`}>
+          <DashboardIcon />
+          <span>Home</span>
+        </NavLink>
+        <NavLink to="/reports" className={({ isActive }) => `bottom-nav-link ${isActive ? 'active' : ''}`}>
+          <ReportsIcon />
+          <span>Reports</span>
+        </NavLink>
+        <NavLink to="/submit" className={({ isActive }) => `bottom-nav-link ${isActive ? 'active' : ''}`}>
+          <PlusIcon />
+          <span>Submit</span>
+        </NavLink>
+        <NavLink to="/map" className={({ isActive }) => `bottom-nav-link ${isActive ? 'active' : ''}`}>
+          <MapIcon />
+          <span>Map</span>
+        </NavLink>
+        {user?.role === 'admin' && (
+          <NavLink to="/admin" className={({ isActive }) => `bottom-nav-link ${isActive ? 'active' : ''}`}>
+            <SettingsIcon />
+            <span>Admin</span>
+          </NavLink>
+        )}
+      </nav>
     </div>
   )
 }

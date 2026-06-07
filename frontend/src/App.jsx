@@ -9,18 +9,33 @@ import SubmitReport from './pages/SubmitReport'
 import OutbreakMap from './pages/OutbreakMap'
 import AdminDashboard from './pages/AdminDashboard'
 
-function ProtectedRoute({ children, adminOnly = false }) {
+function ProtectedRoute({ children }) {
   const { user, loading } = useAuth()
   if (loading) return <div className="loading-screen"><div className="spinner" /></div>
   if (!user) return <Navigate to="/login" />
-  if (adminOnly && user.role !== 'admin') return <Navigate to="/" />
   return children
+}
+
+function AdminRoute({ children }) {
+  const { user, loading } = useAuth()
+  if (loading) return <div className="loading-screen"><div className="spinner" /></div>
+  if (!user) return <Navigate to="/login" />
+  if (user.role !== 'admin') return <Navigate to="/" />
+  return children
+}
+
+function RoleRedirect() {
+  const { user, loading } = useAuth()
+  if (loading) return <div className="loading-screen"><div className="spinner" /></div>
+  if (!user) return <Navigate to="/login" replace />
+  if (user.role === 'admin') return <Navigate to="/admin" replace />
+  return <Dashboard />
 }
 
 function PublicRoute({ children }) {
   const { user, loading } = useAuth()
   if (loading) return <div className="loading-screen"><div className="spinner" /></div>
-  if (user) return <Navigate to="/" />
+  if (user) return <Navigate to={user.role === 'admin' ? '/admin' : '/'} replace />
   return children
 }
 
@@ -30,12 +45,12 @@ export default function App() {
       <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
       <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
       <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/" element={<RoleRedirect />} />
         <Route path="/reports" element={<MyReports />} />
         <Route path="/submit" element={<SubmitReport />} />
         <Route path="/map" element={<OutbreakMap />} />
+        <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
       </Route>
-      <Route path="/admin" element={<ProtectedRoute adminOnly><AdminDashboard /></ProtectedRoute>} />
     </Routes>
   )
 }

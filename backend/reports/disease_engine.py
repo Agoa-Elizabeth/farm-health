@@ -33,24 +33,34 @@ BANANA_DISEASE_SIGNATURES = {
             'The disease spreads through infected planting materials, tools, and insect vectors.'
         ),
     },
-    'black_sigatoka': {
+    'banana_black_sigatoka': {
         'label': 'Black Sigatoka',
         'required': ['black_spots_on_leaves', 'yellow_brown_leaf_streaks'],
-        'strong': ['drying_leaf_edges', 'leaf_collapse'],
+        'strong': ['leaf_collapse', 'drying_leaf_edges'],
         'description': (
             'A fungal leaf spot disease caused by Mycosphaerella fijiensis. '
-            'It causes black streaks and spots on leaves, leading to reduced photosynthetic area, '
-            'premature ripening, and reduced fruit quality.'
+            'It starts as small black spots that enlarge into streaks with yellow halos. '
+            'Severe infection causes leaf collapse and premature drying, reducing fruit yield.'
         ),
     },
-    'fusarium_wilt': {
-        'label': 'Fusarium Wilt',
+    'banana_fusarium_wilt': {
+        'label': 'Fusarium Wilt (Panama Disease)',
         'required': ['yellowing_of_leaves', 'wilting_of_leaves'],
-        'strong': ['leaf_collapse', 'splitting_of_pseudostem'],
+        'strong': ['stunted_growth', 'drying_leaf_edges'],
         'description': (
             'A soil-borne fungal disease caused by Fusarium oxysporum f. sp. cubense. '
-            'It causes yellowing and wilting of lower leaves, splitting of the pseudostem, '
-            'and vascular discoloration. The disease can survive in soil for decades.'
+            'It causes progressive yellowing and wilting of lower leaves, stunted growth, '
+            'and eventual death of the plant. The fungus persists in soil for decades.'
+        ),
+    },
+    'banana_streak_virus': {
+        'label': 'Banana Streak Virus',
+        'required': ['yellow_brown_leaf_streaks', 'stunted_growth'],
+        'strong': ['leaf_collapse', 'drying_leaf_edges'],
+        'description': (
+            'A viral disease caused by Banana streak virus (BSV). '
+            'It produces yellow or brown streaking on leaves, stunted growth, '
+            'and reduced fruit yield. The virus can remain dormant and activate under stress.'
         ),
     },
 }
@@ -69,11 +79,11 @@ COFFEE_DISEASE_SIGNATURES = {
     'coffee_berry_disease': {
         'label': 'Coffee Berry Disease',
         'required': ['premature_berry_drop', 'blackened_berries'],
-        'strong': ['brown_lesions_on_leaves', 'dieback_of_twigs'],
+        'strong': ['leaf_drop', 'brown_lesions_on_leaves'],
         'description': (
-            'Caused by the fungus Colletotrichum kahawae. It attacks developing coffee berries, '
-            'causing dark sunken lesions, premature dropping, and mummification of berries. '
-            'Can cause significant yield losses in susceptible varieties.'
+            'A fungal disease caused by Colletotrichum kahawae. It attacks green berries, '
+            'causing dark sunken lesions that lead to premature dropping. Severe outbreaks '
+            'can destroy up to 80% of the crop.'
         ),
     },
     'coffee_wilt_disease': {
@@ -82,8 +92,18 @@ COFFEE_DISEASE_SIGNATURES = {
         'strong': ['leaf_drop', 'stunted_growth'],
         'description': (
             'A vascular wilt disease caused by Fusarium xylarioides. It causes progressive '
-            'wilting of branches, leaf drop, dieback, and eventual death of the coffee tree. '
-            'The fungus blocks water-conducting vessels in the stem.'
+            'wilting of branches, dieback, leaf drop, and eventually death of the tree. '
+            'It is one of the most destructive diseases in African coffee production.'
+        ),
+    },
+    'coffee_leaf_miner': {
+        'label': 'Coffee Leaf Miner',
+        'required': ['brown_lesions_on_leaves', 'leaf_drop'],
+        'strong': ['yellow_leaf_spots', 'dieback_of_twigs'],
+        'description': (
+            'Insect damage caused by the coffee leaf miner (Leucoptera spp.). Larvae tunnel '
+            'between leaf surfaces causing brown lesions and premature leaf drop. '
+            'Heavy infestation reduces photosynthesis and coffee yield.'
         ),
     },
 }
@@ -105,6 +125,9 @@ def analyze_symptoms(crop_type, symptoms):
 
     selected = [s for s, v in symptoms.items() if v]
     total_score = sum(weights.get(s, 0) for s in selected)
+
+    if not selected:
+        return None, None, 0, 'low', 0.0
 
     scored = []
     for key, sig in signatures.items():
