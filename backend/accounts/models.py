@@ -9,7 +9,6 @@ class User(AbstractUser):
 
     phone_number = models.CharField(max_length=20, unique=True)
     role = models.CharField(max_length=10, choices=Role.choices, default=Role.FARMER)
-    is_active = models.BooleanField(default=True)
 
     REQUIRED_FIELDS = ['phone_number']
 
